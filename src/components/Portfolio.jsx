@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import gedhangKondhang from "../assets/portfolio/gedhangKondhang.jpg";
 import calculator from "../assets/portfolio/calculator.jpg";
 import cardProfile from "../assets/portfolio/cardProfile.jpg";
-import onlineShop from "../assets/portfolio/onlineShop.jpg";
 import personalWeb from "../assets/portfolio/personalWeb.jpg";
 import photoPortfolio from "../assets/portfolio/photoPortfolio.jpg";
+import wedding from "../assets/portfolio/wedding.jpg";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -17,6 +17,16 @@ const Portfolio = () => {
     });
   }, []);
 
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const openImage = (src) => {
+    setSelectedImage(src);
+  };
+
+  const closeImage = () => {
+    setSelectedImage(null);
+  };
+
   const portfolios = [
     {
       id: 1,
@@ -26,9 +36,9 @@ const Portfolio = () => {
     },
     {
       id: 2,
-      src: onlineShop,
-      href: "https://github.com/wahyusampurnoadi/portofolio",
-      link: "https://wahyusampurnoadi.github.io/portofolio/",
+      src: wedding,
+      href: "https://github.com/wahyusampurnoadi/wedding-website",
+      link: "https://sukronintan.netlify.app/",
     },
     {
       id: 3,
@@ -74,7 +84,7 @@ const Portfolio = () => {
         <div data-aos="fade-up" data-aos-once="false" className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 px-12 sm:px-0">
           {portfolios.map(({ id, src, link, href }) => (
             <div key={id} className="shadow-md shadow-gray-600 mt-5">
-              <img src={src} alt="foto-portfolio" className="duration-200 hover:scale-105" />
+              <img src={src} alt="foto-portfolio" className="duration-200 hover:scale-105 cursor-pointer" onClick={() => openImage(src)} />
               <div className="flex items-center justify-center">
                 <a href={href} target="_blank" rel="noreferrer" className="w-1/2 px-6 py-3 m-4 duration-200 hover:scale-105 hover:text-cyan-400">
                   Code
@@ -86,6 +96,17 @@ const Portfolio = () => {
             </div>
           ))}
         </div>
+
+        {selectedImage && (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-75">
+            <div className="relative mt-24">
+              <img src={selectedImage} alt="selected-portfolio" className="lg:max-w-screen-lg max-h-screen" />
+              <button className="absolute w-20 h-10 lg:top-0 lg:right-0 bottom-56 right-0 md:top-0 md:right-0 m-4 p-2 rounded-full bg-red-500 text-white" onClick={closeImage}>
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
